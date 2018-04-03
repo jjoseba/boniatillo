@@ -17,12 +17,12 @@
                          <div class="row">
                              <div class="col-sm-5" style="border-right:1px solid #ccc;">
                                  <div class="feature">
-                                <h4 class="card-title"><i class="ic ic-wallet"></i>Saldo</h4>
-                                <div class="display-2"> {{wallet.balance|floatformat:2}}</div><span>Boniatos</span></div>
+                                <h4 class="card-title"><i class="material-icons mr-2">account_balance_wallet</i>Saldo</h4>
+                                <div class="display-2"> {{wallet.balance|floatformat:2}}</div><span>Boniatillos</span></div>
                              </div>
                              <div class="col-sm-7 pl-4">
                                  <button type="button" class="btn btn-lg mb-3 disabled">Nueva transferencia</button><br>
-                    <button type="button" class="btn btn-lg disabled">Obtener boniatos</button>
+                    <button type="button" class="btn btn-lg disabled">Obtener boniatillos</button>
                              </div>
                          </div>
 
@@ -61,7 +61,7 @@
 
         <div class="card">
             <div class="card-body py-4">
-                <h5 class="card-title px-2"><i class="ic ic-wallet"></i>Últimos movimientos</h5>
+                <h5 class="card-title px-2"><i class="material-icons mr-3">account_balance_wallet</i>Últimos movimientos</h5>
                 <div class="ajax-load">
                     <div class="results">
                 {% include 'wallets/transaction_logs_query.html' with transactions=transactions %}

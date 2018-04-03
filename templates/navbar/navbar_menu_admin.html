@@ -3,7 +3,7 @@
     <button class="navbar-toggler always-show" type="button" data-toggle="navdrawer" data-target="#doc-navdrawer" aria-controls="doc-navdrawer" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <a class="navbar-brand" href="#">Boniatos</a>
+      <a class="navbar-brand" href="#">Boniatillo</a>
 
       <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="navbar-nav ml-auto mt-0">
@@ -37,24 +37,25 @@
           <li class="nav-item">
             <a class="nav-link {% if request.resolver_match.url_name == 'entity_list' %} active {% endif %}" href="{% url 'entity_list' %}">
               <i class="material-icons mr-3">store</i>
-              Entidades
+              Comercios
             </a>
           </li>
 
            <li class="nav-item">
             <a class="nav-link {% if request.resolver_match.url_name == 'profile_list' %} active {% endif %}" href="{% url 'profile_list' %}">
               <i class="material-icons mr-3">directions_walk</i>
-              Consumidoras
+              Personas
             </a>
           </li>
 
+          <!--
             <li class="nav-item">
             <a class="nav-link {% if request.resolver_match.url_name == 'list_offers' %} active {% endif %}" href="{% url 'list_offers' %}">
               <i class="material-icons mr-3">shopping_basket</i>
               Ofertas
             </a>
           </li>
-
+          -->
 
         </ul>
 
@@ -79,7 +80,7 @@
             <li class="nav-item">
                 <a class="nav-link disabled" href="#">
                   <i class="material-icons mr-3">local_atm</i>
-                  Obtención de boniatos
+                  Obtención de boniatillos
                 </a>
               </li>
 
