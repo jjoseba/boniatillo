@@ -20,17 +20,17 @@
         <a class="navbar-brand px-0" href="#">Administración</a>
       </div>
         <ul class="navdrawer-nav">
-            <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="#">
               <i class="material-icons mr-3">face</i>
               Usuarios
             </a>
-          </li>
+          </li>-->
 
             <li class="nav-item">
-            <a class="nav-link {% if request.resolver_match.url_name == 'category_list' %} active {% endif %}" href="{% url 'category_list' %}">
+            <a class="nav-link {% if request.resolver_match.url_name == 'activity_list' %} active {% endif %}" href="{% url 'activity_list' %}">
               <i class="material-icons mr-3">label</i>
-              Categorías
+              Actividades
             </a>
           </li>
 
