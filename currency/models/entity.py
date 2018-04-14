@@ -99,9 +99,4 @@ def add_user_to_group(sender, instance, created, **kwargs):
         if not instance.gallery:
             instance.gallery = Gallery.objects.create()
 
-        helpers.mailing.send_template_email(
-            'Bienvenid@ a la app del Mercado social',
-            instance.email,
-            'welcome_entity',
-            { 'entity': instance }
-        )
+

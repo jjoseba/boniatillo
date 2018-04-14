@@ -21,6 +21,12 @@ class EntityForm(forms.ModelForm):
     new_user_email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}), required=False)
     new_user_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), required=False)
 
+    send_welcome_email = forms.BooleanField(widget=forms.CheckboxInput(attrs={ 'checked':True }), required=False, label='Mandar email de bienvenida')
+
+    bonus_percent_general = forms.IntegerField(required=False)
+    bonus_percent_entity = forms.IntegerField(required=False)
+    max_percent_payment = forms.IntegerField(required=False)
+
     class Meta:
         model = Entity
         exclude = ['owner','user']

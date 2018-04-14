@@ -229,6 +229,7 @@
                 </div>
 
                 <div class="description text-center mt-5">
+                    {{form.send_welcome_email}} {{form.send_welcome_email.label}} <br><br>
                     <button type="submit" class="right-margin left-margin btn btn-primary btn-lg">{% if is_new %} Crear entidad {% else %} Guardar {% endif %}</button>
                 </div>
             </div>
@@ -270,10 +271,6 @@
                     {{ form.new_user_last_name }}
                 </div>
 
-               <div class="form-group">
-                    <label>Email de usuario</label>
-                    {{ form.new_user_email }}
-                </div>
       </div>
       <div class="modal-footer">
 

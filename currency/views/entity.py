@@ -116,6 +116,15 @@ def add_entity(request):
             form.save_m2m()
             PhotoGalleryForm.save_galleryphoto(entity.gallery, gallery_formset)
 
+            send_email = form.cleaned_data['send_welcome_email']
+            if send_email:
+                helpers.mailing.send_template_email(
+                    'Bienvenid@ a la app del Mercado social',
+                    entity.email,
+                    'welcome_entity',
+                    {'entity': entity}
+                )
+
             return redirect('entity_detail', pk=entity.pk)
         else:
             print form.errors.as_data()
