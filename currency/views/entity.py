@@ -106,6 +106,8 @@ def add_entity(request):
             elif new_user_username and new_user_password:
                 user_email = new_user_email if new_user_email else entity.email
                 user, created = User.objects.get_or_create(username=new_user_username, email=user_email, password=new_user_password, first_name=new_user_first_name, last_name=new_user_last_name)
+                user.set_password(new_user_password)
+                user.save()
                 entity.user = user
             else:
                 entity.user = request.user

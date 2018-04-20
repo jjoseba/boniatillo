@@ -111,6 +111,8 @@ def add_person(request):
                 user_email = person.email
                 user, created = User.objects.get_or_create(username=new_user_username, email=user_email,
                                                            password=new_user_password)
+                user.set_password(new_user_password)
+                user.save()
                 person.user = user
             else:
                 person.user = request.user
