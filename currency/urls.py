@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^entities/$', views.entity_list, name='entity_list'),
 
     url(r'^profile/$', views.user_profile, name='user_profile'),
+    url(r'^profile/add/$', views.add_person, name='add_profile'),
     url(r'^profile/admin/$', views.profile_list, name='profile_list'),
 
     url(r'^profile/(?P<pk>[0-9a-f-]+)/$', views.profile_detail, name='profile_detail'),

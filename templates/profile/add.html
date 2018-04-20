@@ -40,10 +40,19 @@
 
             <h4 class="card-title">{{person.full_name}}</h4>
             <div class="card-text">
+
+                <h4>Nuevo usuario</h4>
                 <p>
-                    <label>{{form.nif.label}}</label>
-                    {{form.nif}}
+                    <label>Nombre de usuario</label>
+                    {{form.new_user_username}}
                 </p>
+
+                <p>
+                    <label>Contraseña</label>
+                    {{form.new_user_password}}
+                </p>
+                <br>
+                <h4>Datos personales</h4>
                 <p>
                     <label>{{form.name.label}}</label>
                     {{form.name}}

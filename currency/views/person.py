@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 
@@ -81,5 +82,49 @@ def profile_edit(request, pk):
     return render(request, 'profile/edit.html', {
         'form': form,
         'person': person,
+        'can_edit':can_edit
+    })
+
+
+@helpers.superuser_required
+def add_person(request):
+    can_edit = request.user.is_superuser
+
+    if not can_edit:
+        messages.add_message(request, messages.ERROR, 'No tienes permisos para editar esta consumidora')
+        return redirect('profile_list')
+
+    if request.method == "POST":
+        form = PersonForm(request.POST, request.FILES)
+        if form.is_valid():
+            person = form.save(commit=False)
+
+            owner_id = form.cleaned_data['owner_id']
+            new_user_username = form.cleaned_data['new_user_username']
+            new_user_password = form.cleaned_data['new_user_password']
+
+            if owner_id:
+                user = User.objects.get(pk=owner_id)
+                person.user = user
+
+            elif new_user_username and new_user_password:
+                user_email = person.email
+                user, created = User.objects.get_or_create(username=new_user_username, email=user_email,
+                                                           password=new_user_password)
+                person.user = user
+            else:
+                person.user = request.user
+
+            person.save()
+            form.save_m2m()
+
+            return redirect('profile_detail', pk=person.pk)
+        else:
+            print form.errors.as_data()
+    else:
+        form = PersonForm()
+
+    return render(request, 'profile/add.html', {
+        'form': form,
         'can_edit':can_edit
     })
