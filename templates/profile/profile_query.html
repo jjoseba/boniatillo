@@ -16,11 +16,14 @@
         <td  class="table-actions">
             <a class="btn btn-outline-primary" href="{% url 'profile_detail' profile.pk %}" style="min-width:0;" data-toggle="tooltip" data-placement="bottom" title="Ver detalle"><i class="material-icons">visibility</i></a>
             <a class="btn btn-outline-primary" href="{% url 'profile_edit' profile.pk %}" style="min-width:0;" data-toggle="tooltip" data-placement="bottom" title="Editar"><i class="material-icons">mode_edit</i></a>
+            <a class="btn btn-outline-primary" href="{% url 'add_activity' %}?person={{profile.pk}}"  data-toggle="tooltip" data-placement="bottom" title="Añadir actividad realizada"><i class="material-icons">add</i></a>
+            <a class="btn btn-outline-primary" href="{% url 'activity_detail' %}?person={{profile.pk}}"  data-toggle="tooltip" data-placement="bottom" title="Ver actividades realizadas"><i class="material-icons">poll</i></a>
+
         </td>
     </tr>
 {% empty %}
     <tr>
-      <td colspan="4">No hay consumidoras que cumplan los criterios de búsqueda...</td>
+      <td colspan="4">No hay personas que cumplan los criterios de búsqueda...</td>
     </tr>
 
 {% endfor %}

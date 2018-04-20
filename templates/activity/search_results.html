@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th scope="col">Nombre</th>
+         <th scope="col">Responsable</th>
       <th scope="col">Acciones</th>
     </tr>
   </thead>
@@ -11,11 +12,14 @@
 {% for activity in activities %}
     <tr>
       <td class="">
-          <h5 class="mb-0">{{activity.name}}</h5>
-          {{activity.type_activity}}
+          <h5>{{activity.name}}</h5>
+
         </td>
+        <td>{{activity.type_activity}}</td>
         <td class="table-actions">
-               </td>
+            <a class="btn btn-outline-primary" href="{% url 'add_activity' %}?activity={{activity.pk}}"  data-toggle="tooltip" data-placement="bottom" title="Añadir actividad realizada"><i class="material-icons">add</i></a>
+            <a class="btn btn-outline-primary" href="{% url 'activity_detail' %}?act={{activity.pk}}"  data-toggle="tooltip" data-placement="bottom" title="Ver actividades realizadas"><i class="material-icons">poll</i></a>
+        </td>
 
     </tr>
 {% empty %}
