@@ -23,10 +23,10 @@ def activity_list(request):
             activities = activities.filter(entry_query)
 
     page = request.GET.get('page')
-    activities = helpers.paginate(activities, page, elems_perpage=10)
+    activities = helpers.paginate(activities, page, elems_perpage=15)
 
     params = {
-        'ajax_url': reverse('entity_list'),
+        'ajax_url': reverse('activity_list'),
         'query_string': query_string,
         'activities': activities,
         'page': page
