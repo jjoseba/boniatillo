@@ -38,7 +38,7 @@ class PaymentManager(models.Manager):
         receiver = get_user_by_related(receiver_uuid)
         if receiver is not None:
             user_type, instance = receiver.get_related_entity()
-            status = STATUS_PENDING if user_type == 'entity' else STATUS_ACCEPTED
+            status = STATUS_ACCEPTED
 
             if user_type == 'entity':
                 # Check that the currency amount is not bigger than the max amount percent
@@ -62,6 +62,7 @@ class PaymentManager(models.Manager):
                 currency_amount=currency_amount,
                 status=status)
 
+            new_payment.accept_payment()
             new_payment.notify_receiver()
             return new_payment
 
@@ -155,6 +156,5 @@ class Payment(models.Model):
             'sender': str(sender_instance)
         }
 
-        print 'Notifying payment receiver'
-        title = 'Nuevo pago pendiente de confirmar'
+        title = 'Has recibido un nuevo pago!'
         notify_user(self.receiver, title=title, data=data, silent=silent)
