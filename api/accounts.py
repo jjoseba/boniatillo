@@ -60,7 +60,8 @@ class RegisterResource(ModelResource):
 
         u = authenticate(username=user.username, password=password)
         if u is not None and u.is_active:
-            Wallet.update_user_pin_code(u, pin_code)
+            if pin_code:
+                Wallet.update_user_pin_code(u, pin_code)
             login(bundle.request, u)
         return bundle
 
