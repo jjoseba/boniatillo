@@ -70,13 +70,14 @@ class Entity(models.Model):
 
     def bonus(self, total_amount, bonusable_type=None):
         percent = self.bonus_percent_general
-        if bonusable_type == 'entity':
+        if bonusable_type and bonusable_type == 'entity':
             percent = self.bonus_percent_entity
 
         return total_amount * (percent / 100.0)
 
     def max_accepted_currency(self, total_amount):
-        return total_amount * (self.max_percent_payment / 100.0)
+        #return total_amount * (self.max_percent_payment / 100.0)
+        return total_amount
 
     class Meta:
         verbose_name = 'Entidad'
