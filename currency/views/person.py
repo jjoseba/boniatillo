@@ -117,6 +117,15 @@ def add_person(request):
             else:
                 person.user = request.user
 
+            send_email = form.cleaned_data['send_welcome_email']
+            if send_email:
+                helpers.mailing.send_template_email(
+                    'Bienvenid@ a la app del Boniatillo',
+                    person.email,
+                    'welcome_person',
+                    {'person': person, 'password': new_user_password}
+                )
+
             person.save()
             form.save_m2m()
 

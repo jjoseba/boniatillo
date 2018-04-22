@@ -17,7 +17,7 @@ class PersonForm(forms.ModelForm):
     new_user_username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}), required=False)
     new_user_password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}), required=False)
 
-    send_welcome_email = forms.BooleanField(widget=forms.CheckboxInput(attrs={'checked': True}), required=False,
+    send_welcome_email = forms.BooleanField(widget=forms.CheckboxInput(attrs={'class':'custom-control-input', 'checked': True}), required=False,
                                             label='Mandar email de bienvenida')
 
     class Meta:
@@ -32,6 +32,7 @@ class PersonForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control', }),
             'registered': forms.TextInput(attrs={'class': 'form-control', 'readonly':True}),
             'profile_image': forms.FileInput(attrs={}),
+            'send_welcome_email': forms.CheckboxInput(attrs={'class':'custom-control-input', 'checked':True})
         }
 
     def clean_new_user_username(self):

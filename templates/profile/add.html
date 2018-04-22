@@ -72,8 +72,16 @@
 
             </div>
 
+              <div class="custom-control custom-checkbox">
+
+                      {{form.send_welcome_email}}
+                      <label class="custom-control-label" for="{{form.send_welcome_email.auto_id}}">{{form.send_welcome_email.label}}</label>
+                    </div>
+
               <div class="description text-center">
-                <button type="submit" class="right-margin left-margin btn btn-primary btn-lg">{% if is_new %} Crear consumidora {% else %} Guardar {% endif %}</button>
+                    <br>
+
+                <button type="submit" class="right-margin left-margin btn btn-primary btn-lg"> Añadir </button>
             </div>
           </div>
 
