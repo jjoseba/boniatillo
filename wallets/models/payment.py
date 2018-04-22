@@ -38,7 +38,7 @@ class PaymentManager(models.Manager):
         receiver = get_user_by_related(receiver_uuid)
         if receiver is not None:
             user_type, instance = receiver.get_related_entity()
-            status = STATUS_ACCEPTED
+            status = STATUS_PENDING
 
             if user_type == 'entity':
                 # Check that the currency amount is not bigger than the max amount percent
