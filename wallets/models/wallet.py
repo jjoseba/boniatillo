@@ -59,18 +59,26 @@ class Wallet(models.Model):
         from wallets.models import Payment
         pending_payments = Payment.objects.pending().filter(sender=self.user).aggregate(sum=Sum('currency_amount'))
         pending_amount = 0 if not pending_payments['sum'] else pending_payments['sum']
+
         credit_limit = 0.0 if not self.type else self.type.credit_limit
         balance = self.balance + credit_limit - pending_amount
 
         return balance
 
-    def has_enough_balance(self, amount_to_pay):
+    def has_enough_balance(self, amount_to_pay, payment=None):
+        from wallets.models.payment import STATUS_PENDING
         if self.type and self.type.unlimited:
                 return True
-        return amount_to_pay <= self.credit_balance
+
+        credit_balance = self.credit_balance
+        # we dont add the current payment to the credit balance
+        if payment and payment.status == STATUS_PENDING:
+            credit_balance += payment.currency_amount
+
+        return amount_to_pay <= credit_balance
 
     @transaction.atomic
-    def new_transaction(self, amount, wallet=None, concept=None, bonus=False, is_euro_purchase=False, **kwargs):
+    def new_transaction(self, amount, wallet=None, concept=None, bonus=False, is_euro_purchase=False, from_payment=None, **kwargs):
 
         if wallet:
             wallet_from = self
@@ -85,7 +93,7 @@ class Wallet(models.Model):
             elif wallet_from:
                 concept = "Transferencia"
 
-        if wallet_from and not wallet_from.has_enough_balance(amount):
+        if wallet_from and not wallet_from.has_enough_balance(amount, payment=from_payment):
             raise NotEnoughBalance
 
         from wallets.models.transaction import Transaction
