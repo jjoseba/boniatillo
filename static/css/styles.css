@@ -497,3 +497,19 @@ background-color:#0080d2;
         border-color: #0080d2;
     box-shadow: inset 0 -2px 0 -1px #0080d2;
 }
+
+.card.wallet{
+    overflow:hidden;
+    position:relative;
+}
+
+.card.wallet i.material-icons{
+    position:absolute;
+    bottom:10px;
+    right:10px;
+    color:#aaa;
+    font-size:80px;
+}
+.card.wallet .wallet-balance{
+    font-family:courier;
+}

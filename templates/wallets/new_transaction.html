@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load settings_value %}
+{% load l10n %}
+
+{% block title %}Transferencias{% endblock%}
+
+{% block bodyattrs %}class="entity"{% endblock%}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12"><h3 class="primary-title mb-3"><i class="material-icons mr-2">swap_horiz</i>Nueva Transferencia</h3></div>
+
+        <div class="col-sm-12">
+        {% for wallet in wallets %}
+            <div class="wallet">
+                <div class="owner">
+                    <h4>
+                        {% with owner=wallet.user.get_related_entity %}
+                            {{owner.1}}
+                            {%if owner.0 == 'entity' %}
+                                <i class="material-icons mr-3">store</i>
+                            {%endif%}
+                            {%if owner.0 == 'person' %}
+                                 <i class="material-icons mr-3">directions_walk</i>
+                            {%endif%}
+                        {% endwith %}
+                    </h4>
+                </div>
+            </div>
+            <br>
+
+        {% endfor %}
+        </div>
+        <div class="col-md-12 px-4 pb-4">
+
+            <div class="ajax-load">
+                    <div class="results">
+                        {% include 'wallets/transactions_query.html' with transactions=transactions %}
+                    </div>
+                    <div class="loading-spinner"><div class="mes-loader"></div></div>
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+            <hr class="mt-3">
+
+        </div>
+    </div>
+</div>
+{% endblock%}
+
+{% block scripts %}
+
+{% endblock scripts %}

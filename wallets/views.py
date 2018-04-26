@@ -5,6 +5,7 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.db.models import Count, Sum
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
@@ -151,6 +152,44 @@ def transaction_list(request):
         params['transactions_bydate'] = transactions_bydate
         return render(request, 'wallets/transactions_list.html', params)
 
+
+
+@superuser_required
+def wallet_search(request):
+
+    wallets = Wallet.objects.all().select_related('user')
+
+    query_string = ''
+    if ('q' in request.GET) and request.GET['q'].strip():
+        query_string = request.GET['q'].strip()
+        entry_query = helpers.get_query(query_string, ['user__entity__name', 'user__person__name', 'user__username'])
+        if entry_query:
+            wallets = wallets.filter(entry_query)
+
+    page = request.GET.get('page')
+    wallets = helpers.paginate(wallets, page, elems_perpage=12)
+
+    params = {
+        'ajax_url': reverse('wallet_search'),
+        'query_string': query_string,
+        'wallets': wallets,
+    }
+
+    if request.is_ajax():
+        response = render(request, 'wallets/wallets_query.html', params)
+        response['Cache-Control'] = 'no-cache'
+        response['Vary'] = 'Accept'
+        return response
+    else:
+        return render(request, 'wallets/wallets_list.html', params)
+
+
+@superuser_required
+def new_transaction(request):
+
+    wallets = Wallet.objects.all().select_related('user')
+
+    return render(request, 'wallets/new_transaction.html', { 'wallets': wallets })
 
 
 @superuser_required

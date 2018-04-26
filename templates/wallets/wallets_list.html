@@ -11,17 +11,13 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-7 col-md-8"><h3 class="primary-title mb-3"><i class="material-icons mr-2">swap_horiz</i>Transferencias</h3></div>
-        <div class="col-sm-5 col-md-4 text-right mb-2"><a href="{% url 'new_transaction' %}" class="btn btn-block btn-primary btn-lg">Nueva transferencia</a> </div>
+        <div class="col-sm-12"><h3 class="primary-title mb-3"><i class="material-icons mr-2">swap_horiz</i>Monederos</h3></div>
 
-        <div class="col-sm-12">
-        {% include "common/activity_graph.html" with graph_data=transactions_bydate floatvalues=True %}
-        </div>
         <div class="col-md-12 px-4 pb-4">
 
             <div class="ajax-load">
                     <div class="results">
-                        {% include 'wallets/transactions_query.html' with transactions=transactions %}
+                        {% include 'wallets/wallets_query.html' with wallets=wallets %}
                     </div>
                     <div class="loading-spinner"><div class="mes-loader"></div></div>
                     <span class="sr-only">Loading...</span>
@@ -32,7 +28,7 @@
 
         </div>
     </div>
-</div>
+
 {% endblock%}
 
 {% block scripts %}

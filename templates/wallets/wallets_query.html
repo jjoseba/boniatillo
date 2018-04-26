@@ -1,0 +1,16 @@
+{% if wallets %}
+<div class="row">
+
+
+{% for wallet in wallets %}
+<div class="col-md-4 col-lg-3 px-2">
+    {% include 'wallets/wallet_card.html' with wallet=wallet %}
+ </div>
+    {% endfor %}
+</div>
+
+{% else %}
+    <div class="text-grey px-3 py-3">No hay ningún monedero que cumpla los criterios de búsqueda.</div>
+{% endif %}
+
+{% include 'common/pagination.html' with page=wallets %}
