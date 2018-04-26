@@ -3,17 +3,17 @@
     {% with owner=wallet.user.get_related_entity %}
             {%if owner.0 == 'entity' %}
                 <i class="material-icons">store</i>
-                <h5 class="mb-0">{{owner.1}}</h5>
+                <h5 class="mb-0 primary-title">{{owner.1}}</h5>
             {%endif%}
             {%if owner.0 == 'person' %}
                  <i class="material-icons">directions_walk</i>
-                <h5 class="mb-0">{{owner.1}}</h5>
+                <h5 class="mb-0 primary-title">{{owner.1}}</h5>
             {%endif%}
     {% endwith %}
 
         {% if wallet.type.id == 'debit' %}
                 <i class="material-icons">account_balance</i>
-                <h5 class="mb-0">Débito</h5>
+                <h5 class="mb-0 primary-title">Débito</h5>
         {% endif %}
         <h3 class="wallet-balance">
             {{wallet.credit_balance}}B

@@ -78,7 +78,7 @@ class Wallet(models.Model):
         return amount_to_pay <= credit_balance
 
     @transaction.atomic
-    def new_transaction(self, amount, wallet=None, concept=None, bonus=False, is_euro_purchase=False, from_payment=None, **kwargs):
+    def new_transaction(self, amount, wallet=None, concept=None, bonus=False, is_euro_purchase=False, from_payment=None, made_byadmin=False, **kwargs):
 
         if wallet:
             wallet_from = self
@@ -97,13 +97,13 @@ class Wallet(models.Model):
             raise NotEnoughBalance
 
         from wallets.models.transaction import Transaction
-
         transaction = Transaction.objects.create(
             wallet_from=wallet_from,
             wallet_to=wallet_to,
             amount=amount,
             is_bonification=bonus,
             concept=concept,
+            made_byadmin=made_byadmin,
             is_euro_purchase=is_euro_purchase,
             **kwargs)
 
@@ -112,6 +112,7 @@ class Wallet(models.Model):
         wallet_to.update_balance(transaction, is_receiver=True)
 
         return transaction
+
 
     @transaction.atomic
     def update_balance(self, new_transaction, is_sender=False, is_receiver=False):

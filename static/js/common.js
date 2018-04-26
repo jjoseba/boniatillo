@@ -46,7 +46,7 @@ function getCookie(name) {
 }
 
 (function( $ ) {
-    function loadResults(resultsContainer, url){
+    function loadResults(resultsContainer, url, keepUrl){
         if (url == null || url == '' || url.startsWith('#')){
             return;
         }
@@ -58,20 +58,26 @@ function getCookie(name) {
                 window.location = $(this).data("href");
             });
             resultsContainer.removeClass('loading-container');
-            var preserveHistory = resultsContainer.attr('data-preservehistory');
-            if (!preserveHistory || preserveHistory != 'true')
-                window.history.replaceState({}, '', url);
+            console.log(keepUrl);
+            if (!keepUrl){
+                var preserveHistory = resultsContainer.attr('data-preservehistory');
+                if (!preserveHistory || preserveHistory != 'true')
+                    window.history.replaceState({}, '', url);
+            }
+
         });
     }
 
     $.fn.ajaxLoader = function( url_or_action ) {
         var self = this;
-
+        var initialUrl = self.attr('data-initial');
+        var keepUrl = (self.attr('data-keepurl') != null) && (self.attr('data-keepurl')!='');
+        console.log(keepUrl);
         if ( url_or_action != null) {
 
             if (url_or_action === 'reload'){
                 var current = self.find('.pagination .page-item.active > a').attr('href');
-                loadResults(self, current);
+                loadResults(self, current, keepUrl);
                 return self;
             }
 
@@ -79,9 +85,8 @@ function getCookie(name) {
             return self;
         }
 
-        var initialUrl = self.attr('data-initial');
         if ((initialUrl != null) && (initialUrl!='')){
-            loadResults(self, initialUrl);
+            loadResults(self, initialUrl, keepUrl);
         }
 
         self.on('click', '.pagination a', function(e){
@@ -89,7 +94,7 @@ function getCookie(name) {
             if ($(this).parent().hasClass('active'))
                 return;
             var url = $(this).attr('href')
-            loadResults(self, url);
+            loadResults(self, url, keepUrl);
         });
 
     };

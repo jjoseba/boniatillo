@@ -13,6 +13,7 @@ from django.db.models.functions import TruncDay
 
 import helpers
 from helpers import superuser_required
+from wallets.forms.TransactionForm import TransactionForm
 from wallets.models import Payment, Wallet, TransactionLog, Transaction, WalletType
 from django.utils import timezone
 
@@ -186,10 +187,33 @@ def wallet_search(request):
 
 @superuser_required
 def new_transaction(request):
+    if request.method == "POST":
+        form = TransactionForm(request.POST, request.FILES)
 
-    wallets = Wallet.objects.all().select_related('user')
+        if form.is_valid():
+            transaction = form.save(commit=False)
+            wallet_from = transaction.wallet_from
 
-    return render(request, 'wallets/new_transaction.html', { 'wallets': wallets })
+            print transaction.wallet_from
+            print transaction.wallet_to
+
+            wallet_from.new_transaction(
+                transaction.amount,
+                wallet=transaction.wallet_to,
+                concept=transaction.concept,
+                bonus=transaction.is_bonification,
+                made_byadmin=True,
+                is_euro_purchase=False,
+            )
+
+
+            return redirect('transaction_list')
+        else:
+            print form.errors.as_data()
+    else:
+        form = TransactionForm()
+
+    return render(request, 'wallets/new_transaction.html', { 'ajax_url': reverse('wallet_search'), 'form':form, })
 
 
 @superuser_required
