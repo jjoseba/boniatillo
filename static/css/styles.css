@@ -501,8 +501,13 @@ background-color:#0080d2;
 .card.wallet{
     overflow:hidden;
     position:relative;
+    cursor:pointer;
+    transition: all .4s;
 }
-
+.card.wallet:hover{
+    cursor:pointer;
+    background-color:#f1f1f1;
+}
 .card.wallet i.material-icons{
     position:absolute;
     bottom:10px;

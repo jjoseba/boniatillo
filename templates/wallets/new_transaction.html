@@ -51,7 +51,7 @@
         {{form.concept}}
     </div>
 
-    <div class="custom-control custom-checkbox">
+    <div class="custom-control custom-checkbox" style="display:none;">
 
       {{form.is_bonification}}
       <label class="custom-control-label" for="{{form.is_bonification.auto_id}}">{{form.is_bonification.label}}</label>
@@ -110,11 +110,20 @@
 
     var current = '';
     var walletModal = $('#wallets-modal');
+
     walletFromBtn.on('click', function(){
         current = 'from';
         walletModal.modal('show');
     });
+    walletFrom.parent().on('click', function(){
+        current = 'from';
+        walletModal.modal('show');
+    });
     walletToBtn.on('click', function(){
+        current = 'to';
+        walletModal.modal('show');
+    });
+    walletTo.parent().on('click', function(){
         current = 'to';
         walletModal.modal('show');
     });

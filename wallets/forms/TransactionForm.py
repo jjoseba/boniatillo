@@ -22,5 +22,5 @@ class TransactionForm(forms.ModelForm):
             'wallet_to': forms.HiddenInput(),
             'amount': forms.NumberInput(attrs={'class': 'form-control'}),
             'concept': forms.TextInput(attrs={'class': 'form-control', }),
-            'is_bonification': forms.CheckboxInput(attrs={'class':'custom-control-input', 'checked':True})
+            'is_bonification': forms.CheckboxInput(attrs={'class':'custom-control-input', 'checked':False})
         }

@@ -17,9 +17,15 @@
 
       <td>
         {% if tr.is_euro_purchase %}
-            <span class="text-muted">MES <i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="Cuenta débito">local_atm</i> </span>
+            <span class="text-muted">ACPP <i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="Cuenta débito">local_atm</i> </span>
           {% else %}
-              {{tr.wallet_from.user}}
+               {% if tr.wallet_from.user %}
+                    {{tr.wallet_from.user}}
+                {% else %}
+                    {% if tr.wallet_from.type.id == 'debit' %}
+                        <span class="text-muted">ACPP <i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="Cuenta débito">local_atm</i> </span>
+                    {% endif %}
+                {% endif %}
           {% endif %}
 
       </td>

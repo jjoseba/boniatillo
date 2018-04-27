@@ -22,7 +22,7 @@ def notify_user(user, data, title=None, message=None, silent=True):
 
     print data
 
-    device = FCMDevice.objects.filter(user=user).first()
+    device = FCMDevice.objects.filter(user=user, active=True).first()
     if device is None:
         return
     if silent:
