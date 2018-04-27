@@ -125,7 +125,6 @@ def add_news(request):
     else:
         form = NewsForm()
 
-    print 'aaaa'
     return render(request, 'news/edit.html', {
         'form': form,
         'is_new': True

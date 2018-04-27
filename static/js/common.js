@@ -58,7 +58,6 @@ function getCookie(name) {
                 window.location = $(this).data("href");
             });
             resultsContainer.removeClass('loading-container');
-            console.log(keepUrl);
             if (!keepUrl){
                 var preserveHistory = resultsContainer.attr('data-preservehistory');
                 if (!preserveHistory || preserveHistory != 'true')
@@ -72,7 +71,7 @@ function getCookie(name) {
         var self = this;
         var initialUrl = self.attr('data-initial');
         var keepUrl = (self.attr('data-keepurl') != null) && (self.attr('data-keepurl')!='');
-        console.log(keepUrl);
+        
         if ( url_or_action != null) {
 
             if (url_or_action === 'reload'){
