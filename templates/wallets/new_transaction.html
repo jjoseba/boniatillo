@@ -15,10 +15,15 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12"><h3 class="primary-title mb-3">Nueva Transferencia</h3></div>
+        {% if notenoughbalance %}
+        <div class="col-sm-12">
 
+            <div class="alert alert-danger text-center"> El monedero seleccionado no tiene saldo suficiente para realizar la transferencia </div>
+                </div>
+        {% endif %}
             <div class="col-md-5 mb-3">
                 <div class="input-group">
-                  <input type="text" name="user_placeholder" id="wallet_from" disabled class="form-control" maxlength="250" value="{{form.wallet_from.value|default:''}}" placeholder="Monedero origen">
+                  <input type="text" name="user_placeholder" id="wallet_from" disabled class="form-control" maxlength="250" value="{% if wallet_from_display %}{{wallet_from_display }}{%endif%}" placeholder="Monedero origen">
                     <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="button" id="fromBtn" style="min-width:0;"><i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="Buscar">search</i></button>
                   </div>
@@ -34,7 +39,7 @@
 
             <div class="col-md-5 mb-2">
                 <div class="input-group">
-                  <input type="text" name="user_placeholder" id="wallet_to" disabled class="form-control" maxlength="250" value="{{form.wallet_from.value|default:''}}" placeholder="Monedero destino">
+                  <input type="text" name="user_placeholder" id="wallet_to" disabled class="form-control" maxlength="250" value="{% if wallet_to_display %}{{wallet_to_display }}{%endif%}" placeholder="Monedero destino">
                     <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="button" id="toBtn" style="min-width:0;"><i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="Buscar">search</i></button>
                   </div>

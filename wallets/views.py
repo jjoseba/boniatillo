@@ -187,6 +187,11 @@ def wallet_search(request):
 
 @superuser_required
 def new_transaction(request):
+
+    params = {
+        'ajax_url': reverse('wallet_search'),
+    }
+
     if request.method == "POST":
         form = TransactionForm(request.POST, request.FILES)
 
@@ -194,26 +199,34 @@ def new_transaction(request):
             transaction = form.save(commit=False)
             wallet_from = transaction.wallet_from
 
-            print transaction.wallet_from
-            print transaction.wallet_to
 
-            wallet_from.new_transaction(
-                transaction.amount,
-                wallet=transaction.wallet_to,
-                concept=transaction.concept,
-                bonus=transaction.is_bonification,
-                made_byadmin=True,
-                is_euro_purchase=False,
-            )
+            success = True
+            try:
+                t = wallet_from.new_transaction(
+                    transaction.amount,
+                    wallet=transaction.wallet_to,
+                    concept=transaction.concept,
+                    bonus=transaction.is_bonification,
+                    made_byadmin=True,
+                    is_euro_purchase=False,
+                )
+                transaction.wallet_to.notify_transaction(t)
+                
+            except Wallet.NotEnoughBalance:
+                params['notenoughbalance'] = True
+                params['wallet_from_display'] = wallet_from.user.get_related_entity()[1]
+                params['wallet_to_display'] = transaction.wallet_to.user.get_related_entity()[1]
+                success = False
 
-
-            return redirect('transaction_list')
+            if success:
+                return redirect('transaction_list')
         else:
             print form.errors.as_data()
     else:
         form = TransactionForm()
 
-    return render(request, 'wallets/new_transaction.html', { 'ajax_url': reverse('wallet_search'), 'form':form, })
+    params['form'] = form
+    return render(request, 'wallets/new_transaction.html', params)
 
 
 @superuser_required
