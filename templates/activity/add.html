@@ -44,6 +44,7 @@
     <div class="form-group">
         <label>{{form.time_spent.label}}</label>
         {{form.time_spent}}
+        {% if form.time_spent.errors %} <div class="alert alert-danger"> {{form.time_spent.errors}}</div> {% endif %}
     </div>
 
 

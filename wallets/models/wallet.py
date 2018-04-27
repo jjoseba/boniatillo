@@ -153,9 +153,9 @@ class Wallet(models.Model):
             wallet.update_pin_code(pin_code)
 
     @staticmethod
-    def debit_transaction(wallet, amount):
+    def debit_transaction(wallet, amount, concept='Compra de boniatos'):
         debit_wallet = Wallet.objects.filter(type__id='debit').first()
-        t = debit_wallet.new_transaction(amount, wallet=wallet, concept='Compra de boniatos', is_euro_purchase=True)
+        t = debit_wallet.new_transaction(amount, wallet=wallet, concept=concept, is_euro_purchase=True)
         wallet.notify_transaction(t)
         return t
 

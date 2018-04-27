@@ -63,7 +63,7 @@ def activity_detail(request):
         params['person'] = Person.objects.filter(pk=person).first()
 
     page = request.GET.get('page')
-    activities = helpers.paginate(activities, page, elems_perpage=2)
+    activities = helpers.paginate(activities, page, elems_perpage=10)
 
     params['activities'] = activities
     params['page'] = page

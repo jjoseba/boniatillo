@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import uuid
-
-from datetime import datetime
-from django.contrib.auth.models import User
+from datetime import datetime, timedelta
 from django.db import models
+from django.db.models import Sum
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from currency.models import Person
+from wallets.models import Wallet
 
 
 class Activity(models.Model):
@@ -39,3 +40,37 @@ class PersonActivity(models.Model):
 
     def __unicode__(self):
         return str(self.person) + ' - ' + str(self.activity)
+
+
+
+CURRENCY_PER_HOUR = 5.00
+
+# Method to pay activity to user
+@receiver(post_save, sender=PersonActivity)
+def pay_activity(sender, instance, created, **kwargs):
+
+    if created:
+        user_wallet = instance.person.user.wallet
+
+        time_amount = instance.time_spent.hour * 60 + instance.time_spent.minute
+
+
+        start_day = instance.day - timedelta(days=instance.day.weekday())
+
+        work_done = PersonActivity.objects.filter(person=instance.person, day__gte=start_day)
+        # Since aggregating times doesnt work, traverse all times:
+        total_time = 0
+        for work in work_done:
+            total_time += work.time_spent.hour * 60 + work.time_spent.minute
+
+        previous_time = total_time - time_amount
+        if total_time < 60:
+            # not enough yet
+            return
+        elif previous_time < 60:
+            time_amount = total_time - 60
+
+        amount = time_amount * CURRENCY_PER_HOUR / 60
+        amount = float("%.2f" % amount)  # Truncate to 2 decimals
+
+        Wallet.debit_transaction(user_wallet, amount, concept='Actividad: ' + instance.activity.name)
