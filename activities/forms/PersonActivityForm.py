@@ -13,11 +13,12 @@ class PersonActivityForm(BootstrapModelForm):
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault('label_suffix', '')
-        form = super(PersonActivityForm, self).__init__(*args, **kwargs)
+        super(PersonActivityForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = PersonActivity
         exclude = []
         widgets = {
+            'daytime': forms.TimeInput(attrs={'class': 'form-control time-input'}),
             'time_spent': forms.TimeInput(attrs={'class': 'form-control time-input'}),
         }

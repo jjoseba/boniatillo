@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 from django.db import models
 from django.db.models import Sum
 from django.db.models.signals import post_save
@@ -31,6 +31,7 @@ class PersonActivity(models.Model):
     activity = models.ForeignKey(Activity, related_name='user_activity', verbose_name='Actividad')
     person = models.ForeignKey(Person, null=True, related_name='activities', verbose_name='Persona que realiza la actividad')
     day = models.DateField(verbose_name='Día de tarea', default=datetime.now)
+    daytime = models.TimeField(verbose_name='Hora de la tarea', default=datetime.now)
     time_spent = models.TimeField(default=0, verbose_name='Tiempo empleado')
 
     class Meta:

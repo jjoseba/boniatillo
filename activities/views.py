@@ -68,7 +68,6 @@ def activity_detail(request):
     params['activities'] = activities
     params['page'] = page
 
-
     if request.is_ajax():
         response = render(request, 'activity/activity_query.html', params)
         response['Cache-Control'] = 'no-cache'

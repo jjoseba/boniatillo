@@ -12,6 +12,7 @@
 
         {%endif %}
       <th scope="col">Día</th>
+        <th scope="col">Hora</th>
         <th scope="col">Duración</th>
     </tr>
   </thead>
@@ -27,9 +28,10 @@
         {% if not person %}
         <td>{{act.person}}</td>
         {%endif %}
-        <td class="table-actions">
+        <td>
             {{act.day}}
         </td>
+        <th >{{act.daytime}}</th>
         <td>{{act.time_spent}}</td>
 
     </tr>
