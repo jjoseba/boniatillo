@@ -40,7 +40,10 @@ class PersonActivity(models.Model):
         ordering = ['day']
 
     def __unicode__(self):
-        return str(self.person) + ' - ' + str(self.activity)
+        if self.person and self.activity:
+            return str(self.person.full_name) + ' - ' + self.activity.name
+        else:
+            return self.activity.name
 
 
 
