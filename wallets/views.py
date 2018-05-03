@@ -211,11 +211,11 @@ def new_transaction(request):
                     is_euro_purchase=False,
                 )
                 transaction.wallet_to.notify_transaction(t)
-                
+
             except Wallet.NotEnoughBalance:
                 params['notenoughbalance'] = True
                 params['wallet_from_display'] = wallet_from.user.get_related_entity()[1]
-                params['wallet_to_display'] = transaction.wallet_to.user.get_related_entity()[1]
+                params['wallet_to_display'] = transaction.wallet_to.user.get_related_entity()[1] if transaction.wallet_to.user else 'Débito'
                 success = False
 
             if success:
