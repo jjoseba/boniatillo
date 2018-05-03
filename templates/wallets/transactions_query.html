@@ -29,7 +29,13 @@
           {% endif %}
 
       </td>
-        <td>{{tr.wallet_to.user}}</td>
+        <td>{% if tr.wallet_to.user %}
+                {{tr.wallet_to.user}}
+            {% else %}
+                {% if tr.wallet_to.type.id == 'debit' %}
+                    <span class="text-muted">ACPP <i class="material-icons" data-toggle="tooltip" data-placement="bottom" title="Cuenta débito">local_atm</i> </span>
+                {% endif %}
+            {% endif %}</td>
 
       <td class="amount">{{tr.amount}}B</td>
       <td>{{tr.concept}}</td>
