@@ -40,11 +40,13 @@ class PersonActivity(models.Model):
         ordering = ['day']
 
     def __unicode__(self):
-        if self.person and self.activity:
-            return str(self.person.full_name) + ' - ' + self.activity.name
-        else:
-            return self.activity.name
+        display = ''
+        if self.person:
+            display += self.person.full_name.strip() + ' - '
+        if self.activity:
+            display += self.activity.name if self.activity.name else ''
 
+        return display
 
 
 CURRENCY_PER_HOUR = 5.00
@@ -58,7 +60,7 @@ def pay_activity(sender, instance, created, **kwargs):
 
         time_amount = instance.time_spent.hour * 60 + instance.time_spent.minute
 
-
+        '''
         start_day = instance.day - timedelta(days=instance.day.weekday())
 
         work_done = PersonActivity.objects.filter(person=instance.person, day__gte=start_day)
@@ -73,6 +75,7 @@ def pay_activity(sender, instance, created, **kwargs):
             return
         elif previous_time < 60:
             time_amount = total_time - 60
+        '''
 
         amount = time_amount * CURRENCY_PER_HOUR / 60
         amount = float("%.2f" % amount)  # Truncate to 2 decimals
