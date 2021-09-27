@@ -1,1 +1,1 @@
-from offer import Offer
+from .offer import Offer

@@ -64,7 +64,7 @@ def add_offer(request, entity_pk):
 
             return redirect('entity_offers', entity_pk=entity.pk)
         else:
-            print form.errors.as_data()
+            print(form.errors.as_data())
     else:
         form = OfferForm()
 
@@ -131,7 +131,7 @@ def offer_edit(request, entity_pk, offer_pk):
 
             return redirect('offer_detail', entity_pk=entity.pk, offer_pk=offer.pk)
         else:
-            print form.errors.as_data()
+            print(form.errors.as_data())
     else:
         form = OfferForm(instance=offer)
 

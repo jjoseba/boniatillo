@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -112,7 +112,7 @@ def add_activity(request):
             else:
                 return redirect('activity_detail')
         else:
-            print form.errors.as_data()
+            print(form.errors.as_data())
     else:
         form = PersonActivityForm(initial=initial)
 

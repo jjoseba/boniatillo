@@ -4,24 +4,22 @@ from __future__ import unicode_literals
 import uuid
 
 from django.contrib.auth.models import User, Group
-from django.core.mail import send_mail
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.db.models import CASCADE
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
 from imagekit.models import ProcessedImageField, ImageSpecField
 from pilkit.processors import ResizeToFit, ResizeToFill
 
-import helpers
-from helpers import RandomFileName
 from currency.models import Category, Gallery
+from helpers import RandomFileName
 
 
 class Entity(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(User, null=False, blank=False)
+    user = models.OneToOneField(User, null=False, blank=False, on_delete=CASCADE)
     cif = models.CharField(null=True, blank=True, verbose_name='NIF/CIF', max_length=50)
     email = models.CharField(null=False, blank=False, verbose_name='Email', max_length=250)
     name = models.CharField(null=True, blank=True, verbose_name='Nombre', max_length=250)
@@ -93,7 +91,7 @@ class Entity(models.Model):
 def add_user_to_group(sender, instance, created, **kwargs):
 
     if created:
-        print 'Adding user to entities group'
+        print('Adding user to entities group')
         group = Group.objects.get(name='entities')
         instance.user.groups.add(group)
 

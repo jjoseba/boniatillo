@@ -129,8 +129,8 @@ def add_entity(request):
 
             return redirect('entity_detail', pk=entity.pk)
         else:
-            print form.errors.as_data()
-            print gallery_formset.errors
+            print(form.errors.as_data())
+            print(gallery_formset.errors)
     else:
         form = EntityForm(initial={'is_new_entity':True})
         gallery_formset = gallery_factory(initial=initial_photos)
@@ -176,8 +176,8 @@ def entity_edit(request, pk):
 
             return redirect('entity_detail', pk=entity.pk)
         else:
-            print form.errors.as_data()
-            print gallery_formset.errors
+            print(form.errors.as_data())
+            print(gallery_formset.errors)
     else:
         form = EntityForm(instance=entity)
         gallery_formset = gallery_factory(initial=initial_photos)

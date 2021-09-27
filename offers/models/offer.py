@@ -5,7 +5,7 @@ import uuid
 
 import datetime
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, CASCADE
 from imagekit.models import ProcessedImageField, ImageSpecField
 from pilkit.processors import ResizeToFit, ResizeToFill
 
@@ -39,7 +39,7 @@ class OffersManager(models.Manager):
 class Offer(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    entity = models.ForeignKey(Entity, null=False, blank=False, related_name='offers')
+    entity = models.ForeignKey(Entity, null=False, blank=False, related_name='offers', on_delete=CASCADE)
 
     title = models.CharField(null=True, blank=True, verbose_name='Nombre', max_length=250)
     description = models.TextField(null=True, blank=True, verbose_name='Descripción')

@@ -137,7 +137,7 @@ class WalletResource(ModelResource):
 
     # Add logical amounts
     def dehydrate(self, bundle):
-        print bundle.obj
+        print(bundle.obj)
 
         return bundle
 

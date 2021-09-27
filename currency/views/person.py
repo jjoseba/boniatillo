@@ -75,7 +75,7 @@ def profile_edit(request, pk):
 
             return redirect('profile_detail', pk=person.pk)
         else:
-            print form.errors.as_data()
+            print(form.errors.as_data())
     else:
         form = PersonForm(instance=person)
 
@@ -131,7 +131,7 @@ def add_person(request):
 
             return redirect('profile_detail', pk=person.pk)
         else:
-            print form.errors.as_data()
+            print(form.errors.as_data())
     else:
         form = PersonForm()
 

@@ -8,7 +8,7 @@ import datetime
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, CASCADE
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from imagekit.models import ProcessedImageField, ImageSpecField
@@ -21,7 +21,7 @@ from helpers import RandomFileName
 class News(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    published_by = models.ForeignKey(User, null=True)
+    published_by = models.ForeignKey(User, null=True, on_delete=CASCADE)
     title = models.CharField(null=True, blank=True, verbose_name='Título', max_length=250)
     short_description = models.TextField(null=True, blank=True, verbose_name='Descripción')
     description = models.TextField(null=True, blank=True, verbose_name='Descripción')
@@ -36,7 +36,6 @@ class News(models.Model):
     published_date = models.DateTimeField(auto_now_add=True)
     more_info_text = models.CharField(null=True, blank=True, verbose_name='Texto del botón de info', max_length=250)
     more_info_url = models.TextField(null=True, blank=True, verbose_name='URL con más información')
-
 
     class Meta:
         verbose_name = 'Noticia'
@@ -53,7 +52,7 @@ class News(models.Model):
 def notify_news(sender, instance, created, **kwargs):
 
     if created:
-        print 'Notifying news to all users'
+        print('Notifying news to all users')
         data = {
             'type': 'news',
             'id':str(instance.pk),

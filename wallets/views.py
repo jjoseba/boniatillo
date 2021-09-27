@@ -1,23 +1,22 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import json
+import datetime
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
-from django.db.models import Count, Sum
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.db.models import Sum
 from django.db.models.functions import TruncDay
+from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+from django.utils import timezone
 
 import helpers
 from helpers import superuser_required
 from wallets.forms.TransactionForm import TransactionForm
 from wallets.models import Payment, Wallet, TransactionLog, Transaction, WalletType
-from django.utils import timezone
 
-import datetime
 
 @login_required
 def pending_payments(request):
@@ -221,7 +220,7 @@ def new_transaction(request):
             if success:
                 return redirect('transaction_list')
         else:
-            print form.errors.as_data()
+            print(form.errors.as_data())
     else:
         form = TransactionForm()
 
