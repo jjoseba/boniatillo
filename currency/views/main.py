@@ -11,7 +11,7 @@ from wallets.models import Wallet, Payment
 
 
 def index(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         return redirect('dashboard')
     else:
         return redirect('login')

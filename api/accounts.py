@@ -152,7 +152,7 @@ class UserResource(ModelResource):
 
     def logout(self, request, **kwargs):
         self.method_check(request, allowed=['post'])
-        if request.user and request.user.is_authenticated():
+        if request.user and request.user.is_authenticated:
             logout(request)
             return self.create_response(request, {'success': True})
         else:
