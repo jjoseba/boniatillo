@@ -1,1 +1,0 @@
-~/.virtualenvs/henar/bin/python manage.py runserver 127.0.0.1:62059 --settings=config.settings.local
