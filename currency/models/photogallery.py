@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import uuid
-
-from django.contrib.auth.models import User
 from django.db import models
-
+from django.db.models import CASCADE
 from imagekit.models import ProcessedImageField, ImageSpecField
 from pilkit.processors import ResizeToFit, ResizeToFill
 
@@ -15,13 +12,15 @@ from helpers import RandomFileName
 class Gallery(models.Model):
 
     title = models.CharField(null=True, blank=True, verbose_name='Título', max_length=250)
+
     class Meta:
         verbose_name = 'Galería'
         verbose_name_plural = 'Galerías'
 
+
 class GalleryPhoto(models.Model):
 
-    gallery = models.ForeignKey(Gallery, null=True, related_name='photos')
+    gallery = models.ForeignKey(Gallery, null=True, related_name='photos', on_delete=CASCADE)
     order = models.IntegerField(verbose_name='Orden', default=0)
     title = models.CharField(null=True, blank=True, verbose_name='Título', max_length=250)
     image = ProcessedImageField(null=True, blank=True, upload_to=RandomFileName('photos/'),

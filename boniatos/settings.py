@@ -149,7 +149,7 @@ CKEDITOR_CONFIGS = {
 
 
 # Import secret settings (see settings_secret.py.template for reference)
-from settings_secret import *
+from .settings_secret import *
 
 if FCM_SERVER_KEY:
     FCM_DJANGO_SETTINGS['FCM_SERVER_KEY'] = FCM_SERVER_KEY

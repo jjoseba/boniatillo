@@ -29,9 +29,10 @@ def get_query(query_string, search_fields):
     query = None  # Query to search for every search term
     terms = normalize_query(query_string)
 
-    print terms
+    print(terms)
+
     for term in terms:
-        if len(term)<3:
+        if len(term) < 3:
             continue
         or_query = None  # Query to search for a given term in each field
         for field_name in search_fields:

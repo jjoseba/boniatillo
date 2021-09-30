@@ -9,6 +9,7 @@ from django.contrib.auth import hashers
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from django.db import models, transaction
+from django.db.models import CASCADE
 from django.utils import timezone
 
 from helpers import notify_user
@@ -52,7 +53,7 @@ class PaymentManager(models.Manager):
                     raise Wallet.WrongPinCode
 
             if not sender_wallet.has_enough_balance(currency_amount):
-                print 'User does not have enough cash!'
+                print('User does not have enough cash!')
                 raise Wallet.NotEnoughBalance(sender_wallet)
 
             new_payment = self.create(
@@ -67,7 +68,7 @@ class PaymentManager(models.Manager):
             return new_payment
 
         else:
-            print 'The user doesnt exist!'
+            print('The user doesnt exist!')
             #TODO: Raise exception
 
 
@@ -77,8 +78,8 @@ class Payment(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Timestamp')
     processed = models.DateTimeField(auto_now_add=False, null=True, verbose_name='Timestamp procesado')
-    sender = models.ForeignKey(User, null=True, related_name='payments_sent')
-    receiver = models.ForeignKey(User, null=True, related_name='payments_received')
+    sender = models.ForeignKey(User, null=True, related_name='payments_sent', on_delete=CASCADE)
+    receiver = models.ForeignKey(User, null=True, related_name='payments_received', on_delete=CASCADE)
 
     status = models.CharField(max_length=10, choices=PAYMENT_STATUS)
     total_amount = models.FloatField(default=0, verbose_name='Importe total')
@@ -95,7 +96,7 @@ class Payment(models.Model):
     def accept_payment(self):
 
         if self.status != STATUS_PENDING:
-            print 'Not pending!'
+            print('Not pending!')
             return
             #TODO: create exception
 
@@ -103,13 +104,13 @@ class Payment(models.Model):
         wallet_receiver = Wallet.objects.filter(user=self.receiver).first()
 
         if not wallet_sender or not wallet_receiver:
-            print 'Wallet doesnt exist!'
+            print('Wallet doesnt exist!')
             return
             # TODO: create exception
 
         #If the user paid some part in currency, we make the transaction
         if self.currency_amount > 0:
-            print 'new transaction'
+            print('new transaction')
             t = wallet_sender.new_transaction(self.currency_amount, wallet=wallet_receiver, from_payment=self)
             wallet_receiver.notify_transaction(t, silent=True)
 
@@ -123,7 +124,7 @@ class Payment(models.Model):
                 t = wallet_receiver.new_transaction(bonus, wallet=wallet_sender, bonus=True)
                 wallet_sender.notify_transaction(t)
 
-        print "Payment accepted"
+        print("Payment accepted")
         self.status = STATUS_ACCEPTED
         self.processed = timezone.now()
         self.save()
@@ -132,13 +133,13 @@ class Payment(models.Model):
     def cancel_payment(self):
 
         if self.status != STATUS_PENDING:
-            print 'Not pending!'
+            print('Not pending!')
             return
             # TODO: create exception
 
         notify_user(user=self.sender, data={}, title="Pago cancelado", message="La entidad ha cancelado el pago")
 
-        print "Payment cancelled"
+        print("Payment cancelled")
         self.status = STATUS_CANCELLED
         self.processed = timezone.now()
         self.save()

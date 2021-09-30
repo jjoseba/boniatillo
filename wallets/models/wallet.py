@@ -6,12 +6,11 @@ import uuid
 from django.contrib.auth import hashers
 from django.contrib.auth.models import User
 from django.db import models, transaction
-from django.db.models import Sum
+from django.db.models import Sum, CASCADE
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from currency.models import Entity, Person
-from currency.models.extend_user import get_related_entity
 from helpers import notify_user
 from wallets.exceptions import NotEnoughBalance, WrongPinCode
 from wallets.models import WalletType
@@ -20,8 +19,8 @@ from wallets.models import WalletType
 class Wallet(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(User, null=True)
-    type = models.ForeignKey(WalletType, null=True, related_name='wallets')
+    user = models.OneToOneField(User, null=True, on_delete=CASCADE)
+    type = models.ForeignKey(WalletType, null=True, related_name='wallets', on_delete=CASCADE)
     balance = models.FloatField(default=0, verbose_name='Saldo actual')
     last_transaction = models.DateTimeField(blank=True, null=True, verbose_name='Última transacción')
     pin_code = models.CharField(null=True, blank=True, max_length=100, verbose_name='Código PIN (hasheado)')
@@ -163,7 +162,7 @@ class Wallet(models.Model):
 @receiver(post_save, sender=User)
 def create_user_wallet(sender, instance, created, **kwargs):
     if created:
-        print 'Creating user wallet!'
+        print('Creating user wallet!')
         wallet, new = Wallet.objects.get_or_create(user=instance)
 
         type, related = instance.get_related_entity()
@@ -171,7 +170,7 @@ def create_user_wallet(sender, instance, created, **kwargs):
         wallet.set_type(wallet_type)
 
         if not new:
-            print 'Wallet for user already existed'
+            print('Wallet for user already existed')
 
 
 # Method to generate the entity wallet type

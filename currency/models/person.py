@@ -5,20 +5,20 @@ import uuid
 
 from django.contrib.auth.models import User, Group
 from django.db import models
+from django.db.models import CASCADE
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-
 from imagekit.models import ProcessedImageField, ImageSpecField
 from pilkit.processors import ResizeToFit, ResizeToFill
 
-from helpers import RandomFileName
 from currency.models import Entity
+from helpers import RandomFileName
 
 
 class Person(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    user = models.OneToOneField(User, null=False, blank=False)
+    user = models.OneToOneField(User, null=False, blank=False, on_delete=CASCADE)
     nif = models.CharField(null=True, blank=True, verbose_name='NIF/CIF', max_length=50)
     email = models.CharField(null=False, blank=False, verbose_name='Email', max_length=250)
     name = models.CharField(null=True, blank=True, verbose_name='Nombre', max_length=250)
@@ -54,6 +54,6 @@ class Person(models.Model):
 def add_user_to_group(sender, instance, created, **kwargs):
 
     if created:
-        print 'Adding user to persons group'
+        print('Adding user to persons group')
         group = Group.objects.get(name='persons')
         instance.user.groups.add(group)
